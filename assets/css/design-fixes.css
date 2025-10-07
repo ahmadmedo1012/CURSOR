@@ -1,0 +1,58 @@
+/* design-fixes.css - تحسينات على الخطوط والوضوح والتقسيمات */
+
+/* 1. تحسين عرض الخطوط والوضوح العام */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+/* Note: Color tokens are now centralized in site.css :root section
+   This file inherits all variables automatically */
+
+/* 2. تحسين التقسيمات والتباعد (Spacing) */
+.container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.card {
+    border-radius: 12px; /* حواف أكثر نعومة */
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* ظل خفيف لتمييز البطاقات */
+    margin-bottom: 2rem;
+    overflow: hidden; /* لضمان تطبيق الحواف الدائرية على المحتوى الداخلي */
+}
+
+.card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.form-group {
+    margin-bottom: 1.75rem; /* زيادة التباعد بين حقول النموذج */
+}
+
+.grid {
+    gap: 2rem; /* زيادة الفراغات في الشبكات */
+}
+
+/* 3. تحسينات إضافية على العناصر */
+.btn {
+    border-radius: 8px; /* حواف أكثر نعومة للأزرار */
+    padding: 0.8rem 1.5rem;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+}

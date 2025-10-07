@@ -1,0 +1,55 @@
+<?php
+// JSON API endpoint for wallet balance
+header('Content-Type: application/json');
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
+
+// Include necessary files
+if (!defined('BASE_PATH')) {
+    require_once dirname(__DIR__) . '/config/config.php';
+}
+require_once BASE_PATH . '/src/Utils/auth.php';
+require_once BASE_PATH . '/src/Utils/db.php';
+
+try {
+    // Start session and check authentication
+    Auth::startSession();
+    
+    if (!Auth::is_logged_in()) {
+        echo json_encode(['balance' => 0, 'logged_in' => false]);
+        exit;
+    }
+    
+    $user = Auth::currentUser();
+    if (!$user) {
+        echo json_encode(['balance' => 0, 'error' => 'User not found']);
+        exit;
+    }
+    
+    $userId = $user['id'];
+    
+    // Get wallet balance from database
+    $balance = Database::fetchOne(
+        "SELECT COALESCE(balance, 0) as balance FROM wallets WHERE user_id = ?",
+        [$userId]
+    );
+    
+    $balanceAmount = $balance ? floatval($balance['balance']) : 0;
+    
+    echo json_encode([
+        'balance' => $balanceAmount,
+        'balance_lyd' => $balanceAmount,
+        'wallet_balance' => $balanceAmount,
+        'amount' => $balanceAmount,
+        'value' => $balanceAmount,
+        'logged_in' => true,
+        'user_id' => $userId
+    ]);
+    
+} catch (Exception $e) {
+    // Log error for debugging
+    error_log("Wallet balance JSON API error: " . $e->getMessage());
+    // Return zero balance on error
+    echo json_encode(['balance' => 0, 'error' => $e->getMessage()]);
+}
+?>
